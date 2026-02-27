@@ -1,0 +1,4 @@
+name: SwiftHarvest
+version: '1.0.0-SNAPSHOT'
+main: com.github.Syaaddd.swiftHarvest.SwiftHarvest
+api-version: '1.21'
