@@ -1,0 +1,12 @@
+com\github\Syaaddd\swiftHarvest\scanner\BlockScanner.class
+com\github\Syaaddd\swiftHarvest\integration\WorldGuardHook.class
+com\github\Syaaddd\swiftHarvest\command\SwiftHarvestCommand.class
+com\github\Syaaddd\swiftHarvest\util\MessageUtils.class
+com\github\Syaaddd\swiftHarvest\listener\PlayerInteractListener.class
+com\github\Syaaddd\swiftHarvest\SwiftHarvest.class
+com\github\Syaaddd\swiftHarvest\config\SwiftHarvestConfig.class
+com\github\Syaaddd\swiftHarvest\manager\DurabilityManager.class
+com\github\Syaaddd\swiftHarvest\manager\DropManager.class
+com\github\Syaaddd\swiftHarvest\listener\BlockBreakListener.class
+com\github\Syaaddd\swiftHarvest\manager\ParticleManager.class
+com\github\Syaaddd\swiftHarvest\manager\CooldownManager.class
