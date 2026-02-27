@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import com.github.Syaaddd.swiftHarvest.SwiftHarvest;
+import com.github.Syaaddd.swiftHarvest.util.MessageUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -210,11 +211,12 @@ public class SwiftHarvestConfig {
 
     // Messages
     public String getMessage(String path) {
-        return messages.getString("prefix", "&7[&bSwiftHarvest&7] ") + 
-               messages.getString("messages." + path, "");
+        String prefix = MessageUtils.colorize(messages.getString("prefix", "&7[&bSwiftHarvest&7] "));
+        String message = MessageUtils.colorize(messages.getString("messages." + path, ""));
+        return prefix + message;
     }
 
     public String getRawMessage(String path) {
-        return messages.getString("messages." + path, "");
+        return MessageUtils.colorize(messages.getString("messages." + path, ""));
     }
 }
