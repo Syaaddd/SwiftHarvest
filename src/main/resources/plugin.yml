@@ -1,0 +1,37 @@
+name: SwiftHarvest
+version: '1.0.0'
+main: com.github.Syaaddd.swiftHarvest.SwiftHarvest
+api-version: '1.21'
+author: Syaaddd
+description: Mine Faster, Lag Less. The Ultimate Vein & Timber Solution.
+
+commands:
+  swifthavert:
+    description: SwiftHarvest admin command
+    usage: /<command> [reload]
+    aliases: [sh, swiftharvest]
+
+permissions:
+  swifthavert.*:
+    description: All SwiftHarvest permissions
+    children:
+      swifthavert.admin: true
+      swifthavert.use: true
+  swifthavert.admin:
+    description: Admin permission (reload config)
+    default: op
+  swifthavert.use:
+    description: Use SwiftHarvest features
+    default: true
+  swifthavert.veinminer:
+    description: Use VeinMiner feature
+    default: true
+  swifthavert.timber:
+    description: Use Timber feature
+    default: true
+  swifthavert.bypass:
+    description: Bypass world blacklist
+    default: op
+
+softdepend:
+  - WorldGuard

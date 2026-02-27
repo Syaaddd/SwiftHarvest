@@ -1,0 +1,11 @@
+prefix: '&7[&bSwiftHarvest&7] '
+messages:
+  cooldown: '&cTunggu %seconds% detik sebelum menggunakan lagi!'
+  full-inventory: '&cInventory penuh! Item akan dijatuhkan.'
+  no-permission: '&cKamu tidak memiliki izin untuk menggunakan ini.'
+  disabled-world: '&cFitur ini tidak aktif di world ini.'
+  veinminer-started: '&aVeinMiner diaktifkan! Menambang %amount% blok.'
+  timber-started: '&aTimber diaktifkan! Menebang %amount% blok.'
+  low-durability: '&cDurability alat tidak cukup!'
+  config-reloaded: '&aKonfigurasi berhasil dimuat ulang.'
+  tool-required: '&cKamu membutuhkan tool yang tepat untuk ini!'
