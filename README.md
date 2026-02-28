@@ -98,7 +98,7 @@ timber:
     - GOLDEN_AXE
     - DIAMOND_AXE
     - NETHERITE_AXE
-  break-leaves: false
+  break-leaves: true
 
 worlds:
   blacklist:
@@ -133,6 +133,12 @@ worlds:
 
 ## Changelog
 
+### Version 1.1.0 (Minor)
+- Added sound effect when VeinMiner or Timber is activated
+- Timber now breaks leaves by default
+- Added PALE_OAK_LEAVES support for latest Minecraft
+- Messages changed to English
+
 ### Version 1.0.0 (Major)
 - Initial release
 - VeinMiner functionality with BFS algorithm
@@ -154,4 +160,4 @@ worlds:
 ---
 
 **License:** MIT  
-**Version:** 1.0.0
+**Version:** 1.1.0

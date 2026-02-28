@@ -8,6 +8,7 @@ import com.github.Syaaddd.swiftHarvest.manager.DurabilityManager;
 import com.github.Syaaddd.swiftHarvest.manager.DropManager;
 import com.github.Syaaddd.swiftHarvest.scanner.BlockScanner;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -113,6 +114,7 @@ public class BlockBreakListener implements Listener {
         cooldownManager.setCooldown(player);
 
         player.sendMessage(config.getMessage("veinminer-started").replace("%amount%", String.valueOf(connectedBlocks.size())));
+        player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
 
         return true;
     }
@@ -175,6 +177,7 @@ public class BlockBreakListener implements Listener {
         cooldownManager.setCooldown(player);
 
         player.sendMessage(config.getMessage("timber-started").replace("%amount%", String.valueOf(connectedBlocks.size())));
+        player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
 
         return true;
     }

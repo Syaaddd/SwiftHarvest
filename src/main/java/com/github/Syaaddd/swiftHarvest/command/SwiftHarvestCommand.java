@@ -17,7 +17,7 @@ public class SwiftHarvestCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!sender.hasPermission("swifthavert.admin")) {
-            sender.sendMessage(MessageUtils.colorize("&cKamu tidak memiliki izin untuk menggunakan perintah ini."));
+            sender.sendMessage(MessageUtils.colorize("&cYou do not have permission to use this command."));
             return true;
         }
 
@@ -29,7 +29,7 @@ public class SwiftHarvestCommand implements CommandExecutor {
         }
 
         sender.sendMessage(MessageUtils.colorize("&7=== SwiftHarvest ==="));
-        sender.sendMessage(MessageUtils.colorize("&b/swifthavert reload &7- Muat ulang konfigurasi"));
+        sender.sendMessage(MessageUtils.colorize("&b/swifthavert reload &7- Reload configuration"));
         return true;
     }
 }
