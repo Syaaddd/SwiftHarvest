@@ -86,14 +86,14 @@ public class SwiftHarvestConfig {
         try {
             messages = new YamlConfiguration();
             messages.set("prefix", "&7[&bSwiftHarvest&7] ");
-            messages.set("messages.cooldown", "&cTunggu %seconds% detik sebelum menggunakan lagi!");
-            messages.set("messages.full-inventory", "&cInventory penuh! Item akan dijatuhkan.");
-            messages.set("messages.no-permission", "&cKamu tidak memiliki izin untuk menggunakan ini.");
-            messages.set("messages.disabled-world", "&cFitur ini tidak aktif di world ini.");
-            messages.set("messages.veinminer-started", "&aVeinMiner diaktifkan! Menambang %amount% blok.");
-            messages.set("messages.timber-started", "&aTimber diaktifkan! Menebang %amount% blok.");
-            messages.set("messages.low-durability", "&cDurability alat tidak cukup!");
-            messages.set("messages.config-reloaded", "&aKonfigurasi berhasil dimuat ulang.");
+            messages.set("messages.cooldown", "&cWait %seconds% seconds before using again!");
+            messages.set("messages.full-inventory", "&cInventory full! Items will be dropped.");
+            messages.set("messages.no-permission", "&cYou do not have permission to use this.");
+            messages.set("messages.disabled-world", "&cThis feature is disabled in this world.");
+            messages.set("messages.veinminer-started", "&aVeinMiner activated! Mining %amount% blocks.");
+            messages.set("messages.timber-started", "&aTimber activated! Chopping %amount% blocks.");
+            messages.set("messages.low-durability", "&cNot enough durability on tool!");
+            messages.set("messages.config-reloaded", "&aConfiguration reloaded successfully.");
             messages.save(messagesFile);
         } catch (IOException e) {
             plugin.getLogger().severe("Failed to create default messages: " + e.getMessage());
@@ -165,7 +165,7 @@ public class SwiftHarvestConfig {
     }
 
     public boolean isBreakLeaves() {
-        return config.getBoolean("timber.break-leaves", false);
+        return config.getBoolean("timber.break-leaves", true);
     }
 
     public boolean isRequireSapling() {
@@ -197,6 +197,7 @@ public class SwiftHarvestConfig {
         leaves.add(Material.DARK_OAK_LEAVES);
         leaves.add(Material.MANGROVE_LEAVES);
         leaves.add(Material.CHERRY_LEAVES);
+        leaves.add(Material.PALE_OAK_LEAVES);
         return leaves;
     }
 

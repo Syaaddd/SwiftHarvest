@@ -1,17 +1,17 @@
 settings:
-  # Apakah harus sneak untuk aktivasi?
+  # Require sneak to activate?
   require-sneak: true
-  # Maksimum blok yang bisa dihancurkan sekali jalan (Safety Limit)
+  # Maximum blocks that can be broken at once (Safety Limit)
   max-blocks: 64
-  # Delay cooldown setelah penggunaan (dalam tick)
+  # Cooldown delay after usage (in ticks)
   cooldown: 10
-  # Tampilkan partikel preview?
+  # Show preview particles?
   preview-particles: true
 
-# Konfigurasi VeinMiner
+# VeinMiner Configuration
 veinminer:
   enabled: true
-  # Tool yang diperbolehkan
+  # Allowed tools
   allowed-tools:
     - WOODEN_PICKAXE
     - STONE_PICKAXE
@@ -19,7 +19,7 @@ veinminer:
     - GOLDEN_PICKAXE
     - DIAMOND_PICKAXE
     - NETHERITE_PICKAXE
-  # Blok yang bisa di-vein (bisa custom)
+  # Valid blocks for vein mining
   valid-blocks:
     - COAL_ORE
     - IRON_ORE
@@ -41,7 +41,7 @@ veinminer:
     - DEEPSLATE_COPPER_ORE
     - GLOWSTONE
 
-# Konfigurasi Timber
+# Timber Configuration
 timber:
   enabled: true
   allowed-tools:
@@ -51,14 +51,14 @@ timber:
     - GOLDEN_AXE
     - DIAMOND_AXE
     - NETHERITE_AXE
-  # Apakah daun ikut hancur? (False disarankan untuk performa)
-  break-leaves: false
-  # Apakah sapling harus ada agar pohon bisa ditebang? (Opsional)
+  # Break leaves when chopping trees?
+  break-leaves: true
+  # Require sapling to chop tree? (Optional)
   require-sapling: false
 
-# Konfigurasi World
+# World Configuration
 worlds:
-  # World yang tidak bisa menggunakan fitur ini
+  # Worlds where features are disabled
   blacklist:
     - world_nether
     - world_the_end
