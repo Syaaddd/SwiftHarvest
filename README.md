@@ -126,14 +126,17 @@ worlds:
 5. Use `/swifthavert reload` to reload config after changes
 
 **Requirements:**
-- PaperMC 1.21+ or Purpur
-- Java 21
+- PaperMC 26.2+ or Purpur
+- Java 25
 
 ---
 
 ## Changelog
 
-### Version 1.1.0 (Minor)
+### Version 1.2.0 (Minor)
+- Updated for Paper/Minecraft 26.2
+- Migrated tool durability handling to the modern `Damageable` API
+- Added Pale Oak log support
 - Added sound effect when VeinMiner or Timber is activated
 - Timber now breaks leaves by default
 - Added PALE_OAK_LEAVES support for latest Minecraft
@@ -154,10 +157,10 @@ worlds:
 ---
 
 ## Support
-
+ 
 - Issues: [GitHub Issues](https://github.com/Syaaddd/SwiftHarvest/issues)
 
 ---
 
 **License:** MIT  
-**Version:** 1.1.0
+**Version:** 1.2.0

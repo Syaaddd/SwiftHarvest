@@ -8,4 +8,5 @@ messages:
   timber-started: '&aTimber activated! Chopping %amount% blocks.'
   low-durability: '&cNot enough durability on tool!'
   config-reloaded: '&aConfiguration reloaded successfully.'
-  tool-required: '&cYou need the right tool for this!'
+  toggle-on: '&aSwiftHarvest &2enabled&a!'
+  toggle-off: '&cSwiftHarvest &4disabled&c.'

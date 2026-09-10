@@ -1,5 +1,5 @@
 name: SwiftHarvest
-version: '1.1.0'
+version: '1.3.0'
 main: com.github.Syaaddd.swiftHarvest.SwiftHarvest
 api-version: '1.21'
 author: Syaaddd
@@ -8,7 +8,7 @@ description: Mine Faster, Lag Less. The Ultimate Vein & Timber Solution.
 commands:
   swifthavert:
     description: SwiftHarvest admin command
-    usage: /<command> [reload]
+    usage: /<command> [reload|toggle]
     aliases: [sh, swiftharvest]
 
 permissions:

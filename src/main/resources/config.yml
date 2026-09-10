@@ -2,11 +2,18 @@ settings:
   # Require sneak to activate?
   require-sneak: true
   # Maximum blocks that can be broken at once (Safety Limit)
+  # Used as fallback when per-tier tool config is disabled
   max-blocks: 64
   # Cooldown delay after usage (in ticks)
   cooldown: 10
   # Show preview particles?
   preview-particles: true
+  # Activation mode: sneak | toggle | hold
+  # sneak: classic sneak + break
+  # toggle: player toggles with /sh toggle, then breaks normally
+  # hold: hold sneak for N ticks, then activation is on until release
+  activation-mode: "sneak"
+  hold-ticks: 10
 
 # VeinMiner Configuration
 veinminer:
@@ -40,6 +47,41 @@ veinminer:
     - DEEPSLATE_EMERALD_ORE
     - DEEPSLATE_COPPER_ORE
     - GLOWSTONE
+  # Scan mode: cardinal (6 directions) | diagonal (26 directions)
+  scan-mode: "cardinal"
+  # Enchantment support
+  honor-fortune: true
+  honor-silk-touch: true
+  # Cap fortune multiplier to prevent OP drops (0 = unlimited)
+  max-fortune-multiplier: 3.0
+  # Per-tool tier settings (max-blocks override, durability & cooldown multiplier)
+  # Set use-tiers: true to enable. Falls back to settings.max-blocks if disabled.
+  use-tiers: false
+  tool-tiers:
+    WOODEN_PICKAXE:
+      max-blocks: 8
+      durability-multiplier: 1.5
+      cooldown-multiplier: 2.0
+    STONE_PICKAXE:
+      max-blocks: 16
+      durability-multiplier: 1.2
+      cooldown-multiplier: 1.5
+    IRON_PICKAXE:
+      max-blocks: 32
+      durability-multiplier: 1.0
+      cooldown-multiplier: 1.0
+    GOLDEN_PICKAXE:
+      max-blocks: 16
+      durability-multiplier: 2.0
+      cooldown-multiplier: 1.5
+    DIAMOND_PICKAXE:
+      max-blocks: 64
+      durability-multiplier: 0.8
+      cooldown-multiplier: 0.8
+    NETHERITE_PICKAXE:
+      max-blocks: 128
+      durability-multiplier: 0.6
+      cooldown-multiplier: 0.5
 
 # Timber Configuration
 timber:
@@ -53,8 +95,48 @@ timber:
     - NETHERITE_AXE
   # Break leaves when chopping trees?
   break-leaves: true
+  # Pale Oak is included in the built-in timber material list.
   # Require sapling to chop tree? (Optional)
   require-sapling: false
+  # Tree detection: strict (trunk-based, anti-bleed) | loose (original BFS)
+  detection: "strict"
+  # Max horizontal radius from trunk to consider as same tree (for strict mode)
+  max-horizontal-radius: 2
+  # Per-tool tier settings
+  use-tiers: false
+  tool-tiers:
+    WOODEN_AXE:
+      max-blocks: 16
+      durability-multiplier: 1.5
+      cooldown-multiplier: 2.0
+    STONE_AXE:
+      max-blocks: 32
+      durability-multiplier: 1.2
+      cooldown-multiplier: 1.5
+    IRON_AXE:
+      max-blocks: 64
+      durability-multiplier: 1.0
+      cooldown-multiplier: 1.0
+    GOLDEN_AXE:
+      max-blocks: 32
+      durability-multiplier: 2.0
+      cooldown-multiplier: 1.5
+    DIAMOND_AXE:
+      max-blocks: 128
+      durability-multiplier: 0.8
+      cooldown-multiplier: 0.8
+    NETHERITE_AXE:
+      max-blocks: 256
+      durability-multiplier: 0.6
+      cooldown-multiplier: 0.5
+
+# Animation settings for block breaking
+animation:
+  enabled: true
+  # Number of blocks to break per tick (higher = faster, more laggy)
+  blocks-per-tick: 4
+  # Style: ripple (from player outward) | wave (bottom-up) | random
+  style: "ripple"
 
 # World Configuration
 worlds:

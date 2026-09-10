@@ -1,10 +1,11 @@
 package com.github.Syaaddd.swiftHarvest.config;
 
-import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import com.github.Syaaddd.swiftHarvest.SwiftHarvest;
 import com.github.Syaaddd.swiftHarvest.util.MessageUtils;
+import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +20,10 @@ public class SwiftHarvestConfig {
     private FileConfiguration messages;
     private File configFile;
     private File messagesFile;
+
+    // Tool tier cache
+    private Map<Material, ToolTier> veinMinerTiers = new HashMap<>();
+    private Map<Material, ToolTier> timberTiers = new HashMap<>();
 
     public SwiftHarvestConfig(SwiftHarvest plugin) {
         this.plugin = plugin;
@@ -42,40 +47,54 @@ public class SwiftHarvestConfig {
 
         config = YamlConfiguration.loadConfiguration(configFile);
         messages = YamlConfiguration.loadConfiguration(messagesFile);
+
+        // Load tool tiers
+        loadToolTiers();
+    }
+
+    private void loadToolTiers() {
+        veinMinerTiers.clear();
+        timberTiers.clear();
+
+        // Load VeinMiner tiers
+        ConfigurationSection veinTiers = config.getConfigurationSection("veinminer.tool-tiers");
+        if (veinTiers != null) {
+            for (String toolName : veinTiers.getKeys(false)) {
+                try {
+                    Material tool = Material.valueOf(toolName);
+                    ConfigurationSection tierConfig = veinTiers.getConfigurationSection(toolName);
+                    if (tierConfig != null) {
+                        int maxBlocks = tierConfig.getInt("max-blocks", 64);
+                        double durabilityMult = tierConfig.getDouble("durability-multiplier", 1.0);
+                        double cooldownMult = tierConfig.getDouble("cooldown-multiplier", 1.0);
+                        veinMinerTiers.put(tool, new ToolTier(maxBlocks, durabilityMult, cooldownMult));
+                    }
+                } catch (IllegalArgumentException ignored) {}
+            }
+        }
+
+        // Load Timber tiers
+        ConfigurationSection timberTiersSection = config.getConfigurationSection("timber.tool-tiers");
+        if (timberTiersSection != null) {
+            for (String toolName : timberTiersSection.getKeys(false)) {
+                try {
+                    Material tool = Material.valueOf(toolName);
+                    ConfigurationSection tierConfig = timberTiersSection.getConfigurationSection(toolName);
+                    if (tierConfig != null) {
+                        int maxBlocks = tierConfig.getInt("max-blocks", 64);
+                        double durabilityMult = tierConfig.getDouble("durability-multiplier", 1.0);
+                        double cooldownMult = tierConfig.getDouble("cooldown-multiplier", 1.0);
+                        timberTiers.put(tool, new ToolTier(maxBlocks, durabilityMult, cooldownMult));
+                    }
+                } catch (IllegalArgumentException ignored) {}
+            }
+        }
     }
 
     private void createDefaultConfig() {
         try (InputStream is = plugin.getResource("config.yml")) {
             if (is != null) {
                 Files.copy(is, configFile.toPath());
-            } else {
-                config = new YamlConfiguration();
-                config.set("settings.require-sneak", true);
-                config.set("settings.max-blocks", 64);
-                config.set("settings.cooldown", 10);
-                config.set("settings.preview-particles", true);
-                config.set("veinminer.enabled", true);
-                config.set("veinminer.allowed-tools", Arrays.asList(
-                    "WOODEN_PICKAXE", "STONE_PICKAXE", "IRON_PICKAXE",
-                    "GOLDEN_PICKAXE", "DIAMOND_PICKAXE", "NETHERITE_PICKAXE"
-                ));
-                config.set("veinminer.valid-blocks", Arrays.asList(
-                    "COAL_ORE", "IRON_ORE", "GOLD_ORE", "DIAMOND_ORE",
-                    "REDSTONE_ORE", "LAPIS_ORE", "EMERALD_ORE",
-                    "NETHER_QUARTZ_ORE", "ANCIENT_DEBRIS", "COPPER_ORE", "DEEPSLATE_COAL_ORE",
-                    "DEEPSLATE_IRON_ORE", "DEEPSLATE_GOLD_ORE", "DEEPSLATE_DIAMOND_ORE",
-                    "DEEPSLATE_REDSTONE_ORE", "DEEPSLATE_LAPIS_ORE", "DEEPSLATE_EMERALD_ORE",
-                    "DEEPSLATE_COPPER_ORE", "COPPER_ORE", "GLOWSTONE"
-                ));
-                config.set("timber.enabled", true);
-                config.set("timber.allowed-tools", Arrays.asList(
-                    "WOODEN_AXE", "STONE_AXE", "IRON_AXE",
-                    "GOLDEN_AXE", "DIAMOND_AXE", "NETHERITE_AXE"
-                ));
-                config.set("timber.break-leaves", false);
-                config.set("timber.require-sapling", false);
-                config.set("worlds.blacklist", Arrays.asList("world_nether", "world_the_end"));
-                config.save(configFile);
             }
         } catch (IOException e) {
             plugin.getLogger().severe("Failed to create default config: " + e.getMessage());
@@ -94,6 +113,8 @@ public class SwiftHarvestConfig {
             messages.set("messages.timber-started", "&aTimber activated! Chopping %amount% blocks.");
             messages.set("messages.low-durability", "&cNot enough durability on tool!");
             messages.set("messages.config-reloaded", "&aConfiguration reloaded successfully.");
+            messages.set("messages.toggle-on", "&aSwiftHarvest enabled!");
+            messages.set("messages.toggle-off", "&cSwiftHarvest disabled.");
             messages.save(messagesFile);
         } catch (IOException e) {
             plugin.getLogger().severe("Failed to create default messages: " + e.getMessage());
@@ -119,6 +140,14 @@ public class SwiftHarvestConfig {
 
     public boolean isPreviewParticles() {
         return config.getBoolean("settings.preview-particles", true);
+    }
+
+    public String getActivationMode() {
+        return config.getString("settings.activation-mode", "sneak");
+    }
+
+    public int getHoldTicks() {
+        return config.getInt("settings.hold-ticks", 10);
     }
 
     // VeinMiner
@@ -148,6 +177,37 @@ public class SwiftHarvestConfig {
         return blocks;
     }
 
+    public String getVeinMinerScanMode() {
+        return config.getString("veinminer.scan-mode", "cardinal");
+    }
+
+    public boolean isHonorFortune() {
+        return config.getBoolean("veinminer.honor-fortune", true);
+    }
+
+    public boolean isHonorSilkTouch() {
+        return config.getBoolean("veinminer.honor-silk-touch", true);
+    }
+
+    public double getMaxFortuneMultiplier() {
+        return config.getDouble("veinminer.max-fortune-multiplier", 3.0);
+    }
+
+    public boolean isUseVeinMinerTiers() {
+        return config.getBoolean("veinminer.use-tiers", false);
+    }
+
+    public ToolTier getVeinMinerTier(Material tool) {
+        return veinMinerTiers.get(tool);
+    }
+
+    public int getMaxBlocksForVeinMiner(Material tool) {
+        if (isUseVeinMinerTiers() && veinMinerTiers.containsKey(tool)) {
+            return veinMinerTiers.get(tool).getMaxBlocks();
+        }
+        return getMaxBlocks();
+    }
+
     // Timber
     public boolean isTimberEnabled() {
         return config.getBoolean("timber.enabled", true);
@@ -172,6 +232,29 @@ public class SwiftHarvestConfig {
         return config.getBoolean("timber.require-sapling", false);
     }
 
+    public String getTimberDetection() {
+        return config.getString("timber.detection", "strict");
+    }
+
+    public int getMaxHorizontalRadius() {
+        return config.getInt("timber.max-horizontal-radius", 2);
+    }
+
+    public boolean isUseTimberTiers() {
+        return config.getBoolean("timber.use-tiers", false);
+    }
+
+    public ToolTier getTimberTier(Material tool) {
+        return timberTiers.get(tool);
+    }
+
+    public int getMaxBlocksForTimber(Material tool) {
+        if (isUseTimberTiers() && timberTiers.containsKey(tool)) {
+            return timberTiers.get(tool).getMaxBlocks();
+        }
+        return getMaxBlocks();
+    }
+
     public Set<Material> getTimberBlocks() {
         Set<Material> blocks = new HashSet<>();
         blocks.add(Material.OAK_LOG);
@@ -182,6 +265,7 @@ public class SwiftHarvestConfig {
         blocks.add(Material.DARK_OAK_LOG);
         blocks.add(Material.MANGROVE_LOG);
         blocks.add(Material.CHERRY_LOG);
+        blocks.add(Material.PALE_OAK_LOG);
         blocks.add(Material.CRIMSON_STEM);
         blocks.add(Material.WARPED_STEM);
         return blocks;
@@ -199,6 +283,19 @@ public class SwiftHarvestConfig {
         leaves.add(Material.CHERRY_LEAVES);
         leaves.add(Material.PALE_OAK_LEAVES);
         return leaves;
+    }
+
+    // Animation
+    public boolean isAnimationEnabled() {
+        return config.getBoolean("animation.enabled", false);
+    }
+
+    public int getBlocksPerTick() {
+        return config.getInt("animation.blocks-per-tick", 4);
+    }
+
+    public String getAnimationStyle() {
+        return config.getString("animation.style", "ripple");
     }
 
     // Worlds
@@ -219,5 +316,30 @@ public class SwiftHarvestConfig {
 
     public String getRawMessage(String path) {
         return MessageUtils.colorize(messages.getString("messages." + path, ""));
+    }
+
+    // Tool tier data class
+    public static class ToolTier {
+        private final int maxBlocks;
+        private final double durabilityMultiplier;
+        private final double cooldownMultiplier;
+
+        public ToolTier(int maxBlocks, double durabilityMultiplier, double cooldownMultiplier) {
+            this.maxBlocks = maxBlocks;
+            this.durabilityMultiplier = durabilityMultiplier;
+            this.cooldownMultiplier = cooldownMultiplier;
+        }
+
+        public int getMaxBlocks() {
+            return maxBlocks;
+        }
+
+        public double getDurabilityMultiplier() {
+            return durabilityMultiplier;
+        }
+
+        public double getCooldownMultiplier() {
+            return cooldownMultiplier;
+        }
     }
 }
