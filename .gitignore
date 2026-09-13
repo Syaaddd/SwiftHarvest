@@ -17,6 +17,13 @@ Thumbs.desktop.ini
 mvnw
 mvnw.cmd
 
+# Build scripts
+build.bat
+build.sh
+
+# Documentation
+VersionUpdateFormat.md
+
 # Logs
 *.log
 
