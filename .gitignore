@@ -1,14 +1,24 @@
-# Maven build artifacts
+# Build artifacts
 target/
+*.jar
 
 # IDE files
 .idea/
 *.iml
 .vscode/
+*.swp
 
 # OS files
 .DS_Store
-Thumbs.db
+Thumbs.desktop.ini
+
+# Maven wrapper
+.mvn/
+mvnw
+mvnw.cmd
 
 # Logs
 *.log
+
+# Temporary files
+*.tmp
