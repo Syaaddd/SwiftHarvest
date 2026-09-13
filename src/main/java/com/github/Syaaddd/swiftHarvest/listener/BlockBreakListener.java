@@ -46,8 +46,14 @@ public class BlockBreakListener implements Listener {
             return;
         }
 
-        if (WorldGuardHook.isEnabled() && !WorldGuardHook.canBuild(player, block)) {
-            return;
+        // Isolate WorldGuard call - if WorldGuard isn't installed, JVM will throw
+        // NoClassDefFoundError when loading WorldGuardHook. Catch it gracefully.
+        try {
+            if (WorldGuardHook.isEnabled() && !WorldGuardHook.canBuild(player, block)) {
+                return;
+            }
+        } catch (NoClassDefFoundError | Exception ignored) {
+            // WorldGuard not installed or hook failed to initialize - safe to skip
         }
 
         // Check activation based on mode
